@@ -4,16 +4,16 @@
 namespace Api\V1\Users\Controllers;
 
 
-use Api\V1\Users\Actions\DestroyUserAction;
+use Api\V1\Users\Models\User;
+use App\Http\Controllers\Controller;
+use Api\V1\Users\Resources\UserResource;
 use Api\V1\Users\Actions\StoreUserAction;
 use Api\V1\Users\Actions\UpdateUserAction;
-use Api\V1\Users\DataTransferObjects\UserData;
-use Api\V1\Users\Models\User;
 use Api\V1\Users\Requests\StoreUserRequest;
+use Api\V1\Users\Actions\DestroyUserAction;
 use Api\V1\Users\Requests\UpdateUserRequest;
-use Api\V1\Users\Resources\UserResource;
+use Api\V1\Users\DataTransferObjects\UserData;
 use Api\V1\Users\Resources\UserResourceCollection;
-use App\Http\Controllers\Controller;
 use Support\ApiResponseFactory\ResponseFactoryInterface;
 
 class UserController extends Controller
