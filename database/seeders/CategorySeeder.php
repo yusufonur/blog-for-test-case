@@ -3,9 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Api\V1\Categories\Models\Category;
 
 class CategorySeeder extends Seeder
 {
+
     /**
      * Run the database seeds.
      *
@@ -13,6 +15,7 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        //
+        Category::factory(10)
+            ->create();
     }
 }

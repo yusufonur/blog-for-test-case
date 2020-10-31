@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Api\V1\Articles\Models\Article;
+use Api\V1\Categories\Models\Category;
+use Api\V1\Users\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ArticleFactory extends Factory
@@ -37,6 +39,24 @@ class ArticleFactory extends Factory
             "category_id" => null,
             "writer_id" => null
         ];
+    }
+
+    public function randomCategory()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'category_id' => Category::query()->inRandomOrder()->first(),
+            ];
+        });
+    }
+
+    public function writer(User $writer)
+    {
+        return $this->state(function (array $attributes) use ($writer) {
+            return [
+                'writer_id' => $writer,
+            ];
+        });
     }
 
     private function randomImagePath()

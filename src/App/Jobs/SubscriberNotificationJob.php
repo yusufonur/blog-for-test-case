@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use Api\V1\Articles\Models\Article;
+use App\Mail\SubscriberNotificationMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -10,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class SubscriberMailNotificationNewArticle implements ShouldQueue
+class SubscriberNotificationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -52,5 +53,7 @@ class SubscriberMailNotificationNewArticle implements ShouldQueue
      */
     public function handle()
     {
+        Mail::to($this->email)
+            ->queue(new SubscriberNotificationMail($this->article, $this->name));
     }
 }

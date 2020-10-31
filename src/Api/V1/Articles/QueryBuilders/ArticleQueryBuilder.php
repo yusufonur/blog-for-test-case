@@ -4,7 +4,16 @@
 namespace Api\V1\Articles\QueryBuilders;
 
 
-class ArticleQueryBuilder
-{
+use Illuminate\Database\Eloquent\Builder;
 
+class ArticleQueryBuilder extends Builder
+{
+    public function withRelations(): self
+    {
+        return $this->with([
+            "category",
+            "writer",
+            "tags"
+        ]);
+    }
 }

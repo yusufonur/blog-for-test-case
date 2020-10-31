@@ -4,73 +4,62 @@
 namespace Api\V1\Users\Controllers;
 
 
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
+use Api\V1\Users\Requests\LoginRequest;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Support\ApiResponseFactory\ResponseFactoryInterface;
 
-class AuthController extends Controller
+class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    public function __construct()
+
+    private ResponseFactoryInterface $responseFactory;
+
+
+    public function __construct(ResponseFactoryInterface $responseFactory)
     {
-//        $this->middleware('guest')->except('logout');
+        $this->responseFactory = $responseFactory;
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $this->validate($request, [
-            "email" => ["required", "email"],
-            "password" => ["required"]
+        $attempt = Auth::attempt([
+            'email' => $request->input("email"),
+            'password' => $request->input("password")
         ]);
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-            $user = Auth::user();
-            $success['token'] = $user->createToken('MyApp')->accessToken;
-            $success['user_id'] = $user->id;
-            $success['email'] = $user->email;
-            $success['name'] = $user->name;
-            return response()->json($success, 200);
-        } else {
-            return response()->json('Email veya şifre yanlış.', 401);
+
+        if (!$attempt) {
+            return $this->responseFactory->setStatusCode(401)
+                ->setMessage(__("Email veya şifre yanlış."))
+                ->get();
         }
+
+        $user = Auth::user();
+
+        $successData = [
+            "token" => $user->createToken("Blog")->accessToken,
+            "user_id" => $user->id,
+            "email" => $user->email,
+            "name" => $user->name
+        ];
+
+        return $this->responseFactory->setStatusCode(200)
+            ->setMessage(__("Giriş işlemi başarılı"))
+            ->setData($successData)
+            ->get();
     }
 
 
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();
-        $cookie = Cookie::forget('_token');
-        return response()->json([
-            'message' => 'successful-logout'
-        ])->withCookie($cookie);
+
+        return $this->responseFactory->setStatusCode(200)
+            ->setMessage(__("Çıkış işlemi başarılı"))
+            ->get();
     }
 
-
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-            'c_password' => 'required|same:password'
-        ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        if ($user->save()) {
-            return response()->json('Kullanıcı başarıyla eklendi.', 200);
-        } else {
-            return response()->json('Kullanıcı kaydı sırasında bir sorun oluştu.', 400);
-        }
-    }
-
-    public function deneme()
-    {
-        return 'deneme';
-    }
 }

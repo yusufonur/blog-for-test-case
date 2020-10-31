@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Api\V1\Articles\DataTransferObject;
+namespace Api\V1\Articles\DataTransferObjects;
 
 
-use Api\V1\Articles\Requests\ArticleUpdateRequest;
+use Api\V1\Articles\Requests\UpdateArticleRequest;
 use Api\V1\Users\Models\User;
 use Api\V1\Categories\Models\Category;
-use Api\V1\Articles\Requests\ArticleStoreRequest;
+use Api\V1\Articles\Requests\StoreArticleRequest;
 use Illuminate\Http\Request;
 use Spatie\DataTransferObject\DataTransferObject;
 use Support\ImageManager\ImageManager;

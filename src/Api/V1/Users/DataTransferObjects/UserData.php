@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Api\V1\Users\DataTransferObject;
+namespace Api\V1\Users\DataTransferObjects;
 
 
 use Api\V1\Users\Requests\StoreUserRequest;

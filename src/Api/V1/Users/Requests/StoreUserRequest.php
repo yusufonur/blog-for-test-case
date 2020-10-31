@@ -6,7 +6,7 @@ namespace Api\V1\Users\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserStoreRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     public function rules()
     {

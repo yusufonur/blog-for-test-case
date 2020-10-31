@@ -6,7 +6,7 @@ namespace Api\V1\Articles\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ArticleUpdateRequest extends FormRequest
+class UpdateArticleRequest extends FormRequest
 {
     public function rules()
     {

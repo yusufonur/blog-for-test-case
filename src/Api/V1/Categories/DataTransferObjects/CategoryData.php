@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Api\V1\Categories\DataTransferObject;
+namespace Api\V1\Categories\DataTransferObjects;
 
 
 use Api\V1\Categories\Requests\CategoryRequest;

@@ -6,7 +6,7 @@ namespace Api\V1\Subscribers\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SubscriberDestroyRequest extends FormRequest
+class DestroySubscriberRequest extends FormRequest
 {
     public function rules()
     {

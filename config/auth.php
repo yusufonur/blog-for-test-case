@@ -1,5 +1,7 @@
 <?php
 
+use Api\V1\Users\Models\User;
+
 return [
 
     /*
@@ -42,9 +44,9 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'passport',
             'provider' => 'users',
-            'hash' => false,
+//            'hash' => false,
         ],
     ],
 
@@ -68,7 +70,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => User::class,
         ],
 
         // 'users' => [

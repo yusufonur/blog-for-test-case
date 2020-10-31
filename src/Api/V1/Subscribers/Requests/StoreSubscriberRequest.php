@@ -6,7 +6,7 @@ namespace Api\V1\Subscribers\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SubscriberStoreRequest extends FormRequest
+class StoreSubscriberRequest extends FormRequest
 {
     public function rules()
     {

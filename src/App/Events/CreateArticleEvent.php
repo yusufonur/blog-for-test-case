@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use Api\V1\Articles\Models\Article;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -15,13 +16,19 @@ class CreateArticleEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
+     * @var Article
+     */
+    public Article $article;
+
+    /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Article $article
      */
-    public function __construct()
+    public function __construct(Article $article)
     {
         //
+        $this->article = $article;
     }
 
     /**

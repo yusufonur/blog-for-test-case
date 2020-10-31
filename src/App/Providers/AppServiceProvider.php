@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
+use Support\ApiResponseFactory\ResponseFactoryInterface;
+use Support\ApiResponseFactory\ResponseFactoryV1;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+//        Passport::routes();
+
+        $this->app->bind(ResponseFactoryInterface::class, ResponseFactoryV1::class);
     }
 }

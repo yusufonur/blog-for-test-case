@@ -1,61 +1,100 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Kurulum
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    git clone https://github.com/yusufonur/blog-for-test-case
+    
+    composer install
+    
+    php artisan key:generate
+    
+    php artisan migrate --seed
+    
+    php artisan passport:install
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## API Genel Bilgiler
+- TOKEN, Bearer token olarak header'e eklenmelidir.
 
-## Learning Laravel
+## Örnek Request
+    $response = $client->request('GET', '/api/v1/category', [
+        'headers' => [
+            'Accept' => 'application/json',
+        ],
+    ]);
+    
+## Response Kalıbı
+    {
+        "message": "",
+        "errors": [],
+        "data": [
+            {
+                "id": 1,
+                "title": "Voluptas.",
+                "slug": "voluptas",
+                "articles_count": 6
+            },
+            // ...
+        ]
+    }
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## API Uç Noktaları
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| METHOD    | URI                            | NAME               | ACTION                                                      | MIDDLEWARE           |
+|-----------|--------------------------------|--------------------|-------------------------------------------------------------|----------------------|
+| GET|HEAD  | /                              |                    | Closure                                                     | web                  |
+| POST      | api/v1/article                 | article.store      | Api\V1\Articles\Controllers\ArticleController@store         | api                  |
+|           |                                |                    |                                                             | auth:api             |
+|           |                                |                    |                                                             | role:Admin|Writer    |
+| GET|HEAD  | api/v1/article                 | article.index      | Api\V1\Articles\Controllers\ArticleController@index         | api                  |
+| GET|HEAD  | api/v1/article/{article}       | article.show       | Api\V1\Articles\Controllers\ArticleController@show          | api                  |
+| DELETE    | api/v1/article/{article}       | article.destroy    | Api\V1\Articles\Controllers\ArticleController@destroy       | api                  |
+|           |                                |                    |                                                             | auth:api             |
+|           |                                |                    |                                                             | role:Admin|Writer    |
+|           |                                |                    |                                                             | verify_article_owner |
+| PUT|PATCH | api/v1/article/{article}       | article.update     | Api\V1\Articles\Controllers\ArticleController@update        | api                  |
+|           |                                |                    |                                                             | auth:api             |
+|           |                                |                    |                                                             | role:Admin|Writer    |
+|           |                                |                    |                                                             | verify_article_owner |
+| GET|HEAD  | api/v1/category                | category.index     | Api\V1\Categories\Controllers\CategoryController@index      | api                  |
+| POST      | api/v1/category                | category.store     | Api\V1\Categories\Controllers\CategoryController@store      | api                  |
+|           |                                |                    |                                                             | auth:api             |
+|           |                                |                    |                                                             | role:Admin           |
+| DELETE    | api/v1/category/{category}     | category.destroy   | Api\V1\Categories\Controllers\CategoryController@destroy    | api                  |
+|           |                                |                    |                                                             | auth:api             |
+|           |                                |                    |                                                             | role:Admin           |
+| PUT|PATCH | api/v1/category/{category}     | category.update    | Api\V1\Categories\Controllers\CategoryController@update     | api                  |
+|           |                                |                    |                                                             | auth:api             |
+|           |                                |                    |                                                             | role:Admin           |
+| GET|HEAD  | api/v1/category/{category}     | category.show      | Api\V1\Categories\Controllers\CategoryController@show       | api                  |
+| POST      | api/v1/login                   |                    | Api\V1\Users\Controllers\LoginController@login              | api                  |
+| POST      | api/v1/logout                  |                    | Api\V1\Users\Controllers\LoginController@logout             | api                  |
+|           |                                |                    |                                                             | auth:api             |
+| POST      | api/v1/subscriber              | subscriber.store   | Api\V1\Subscribers\Controllers\SubscriberController@store   | api                  |
+|           |                                |                    |                                                             | auth:api             |
+| GET|HEAD  | api/v1/subscriber              | subscriber.index   | Api\V1\Subscribers\Controllers\SubscriberController@index   | api                  |
+|           |                                |                    |                                                             | auth:api             |
+| GET|HEAD  | api/v1/subscriber/{subscriber} | subscriber.show    | Api\V1\Subscribers\Controllers\SubscriberController@show    | api                  |
+|           |                                |                    |                                                             | auth:api             |
+| DELETE    | api/v1/subscriber/{subscriber} | subscriber.destroy | Api\V1\Subscribers\Controllers\SubscriberController@destroy | api                  |
+|           |                                |                    |                                                             | auth:api             |
+| GET|HEAD  | api/v1/user                    | user.index         | Api\V1\Users\Controllers\UserController@index               | api                  |
+|           |                                |                    |                                                             | auth:api             |
+|           |                                |                    |                                                             | role:Admin           |
+| POST      | api/v1/user                    | user.store         | Api\V1\Users\Controllers\UserController@store               | api                  |
+|           |                                |                    |                                                             | auth:api             |
+|           |                                |                    |                                                             | role:Admin           |
+| GET|HEAD  | api/v1/user/{user}             | user.show          | Api\V1\Users\Controllers\UserController@show                | api                  |
+|           |                                |                    |                                                             | auth:api             |
+|           |                                |                    |                                                             | role:Admin           |
+| PUT|PATCH | api/v1/user/{user}             | user.update        | Api\V1\Users\Controllers\UserController@update              | api                  |
+|           |                                |                    |                                                             | auth:api             |
+|           |                                |                    |                                                             | role:Admin           |
+| DELETE    | api/v1/user/{user}             | user.destroy       | Api\V1\Users\Controllers\UserController@destroy             | api                  |
+|           |                                |                    |                                                             | auth:api             |
+|           |                                |                    |                                                             | role:Admin           |
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

@@ -18,7 +18,7 @@ return [
      * Defaults to null, which uses the toString() method on your model.
      */
 
-    'source' => null,
+    'source' => "title",
 
     /**
      * The maximum length of a generated slug.  Defaults to "null", which means
@@ -26,7 +26,7 @@ return [
      * want to make sure your slugs aren't too long.
      */
 
-    'maxLength' => null,
+    'maxLength' => 255,
 
     /**
      * If you are setting a maximum length on your slugs, you may not want the
@@ -87,7 +87,7 @@ return [
      * "similar" slugs.  The closure should return the new unique
      * suffix to append to the slug.
      */
-    
+
     'uniqueSuffix' => null,
 
     /**
@@ -135,7 +135,7 @@ return [
      * is probably not a good idea from an SEO point of view.
      * Only set this to true if you understand the possible consequences.
      */
-    
-    'onUpdate' => false,
+
+    'onUpdate' => true,
 
 ];

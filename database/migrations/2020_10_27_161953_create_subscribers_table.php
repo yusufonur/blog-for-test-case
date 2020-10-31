@@ -19,7 +19,6 @@ class CreateSubscribersTable extends Migration
                 ->unique();
             $table->string("name", 255);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

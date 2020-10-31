@@ -6,7 +6,7 @@ namespace Support\ApiResponseFactory;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ResponseFactory implements ResponseFactoryInterface
+class ResponseFactoryV1 implements ResponseFactoryInterface
 {
     private int $statusCode = 200;
 
